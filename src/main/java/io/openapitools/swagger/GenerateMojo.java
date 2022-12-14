@@ -7,10 +7,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.openapitools.swagger.config.SwaggerConfig;
 import io.swagger.v3.jaxrs2.Reader;
@@ -50,6 +52,9 @@ public class GenerateMojo extends AbstractMojo {
      */
     @Parameter
     private Set<String> resourcePackages;
+
+    @Parameter
+    private Set<String> excludeClassRegex;
 
     /**
      * Recurse into resourcePackages child packages.
@@ -123,8 +128,25 @@ public class GenerateMojo extends AbstractMojo {
 
             Application application = resolveApplication(reflectiveScanner);
             reader.setApplication(application);
+            Set<Class<?>> classSet = reflectiveScanner.classes();
 
-            OpenAPI swagger = OpenAPISorter.sort(reader.read(reflectiveScanner.classes()));
+            if(excludeClassRegex != null){
+                classSet = classSet.stream().filter(c ->{
+                    boolean res = true;
+                    for (String regex:
+                            excludeClassRegex) {
+                       if( c.getName().contains(regex)){
+                    res = false;
+                    break;
+                        }
+                    }
+                    return  res;
+                }).collect(Collectors.toSet());
+            }
+
+
+
+            OpenAPI swagger = OpenAPISorter.sort(reader.read(classSet));
 
             if (outputDirectory.mkdirs()) {
                 getLog().debug("Created output directory " + outputDirectory);

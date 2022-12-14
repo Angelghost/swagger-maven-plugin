@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>Swagger Maven Plugin</name>
-    <groupId>io.openapitools.swagger</groupId>
+    <groupId>io.phenixtechnologies</groupId>
     <version>2.1.7-phenix</version>
     <artifactId>swagger-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
@@ -37,12 +37,12 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Kawet/swagger-maven-plugin</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/Kawet/swagger-maven-plugin</url>
         </repository>
     </distributionManagement>
 
