@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import io.openapitools.swagger.config.SwaggerConfig;
-import io.swagger.v3.jaxrs2.Reader;
+import io.openapitools.swagger.custom.Reader;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
@@ -122,7 +122,7 @@ public class GenerateMojo extends AbstractMojo {
             // set the TCCL before everything else
             Thread.currentThread().setContextClassLoader(clzLoader);
 
-            Reader reader = new Reader(swaggerConfig == null ? new OpenAPI() : swaggerConfig.createSwaggerModel());
+            io.openapitools.swagger.custom.Reader reader = new Reader(swaggerConfig == null ? new OpenAPI() : swaggerConfig.createSwaggerModel());
 
             JaxRSScanner reflectiveScanner = new JaxRSScanner(getLog(), resourcePackages, useResourcePackagesChildren);
 
